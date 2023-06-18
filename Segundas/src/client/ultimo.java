@@ -759,7 +759,7 @@ public class ultimo {
 		   socketCliente = new DatagramSocket();
  
 			 // Configurar la dirección de broadcast
-            InetAddress direccionBroadcast = InetAddress.getByName("192.168.0.255");
+            InetAddress direccionBroadcast = InetAddress.getByName("192.168.1.255");
 
             // Enviar un mensaje de solicitud de descubrimiento al servidor
             String solicitud = "¿Quién es el servidor?";
