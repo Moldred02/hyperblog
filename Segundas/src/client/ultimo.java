@@ -775,11 +775,21 @@ public class ultimo {
             String respuesta = new String(paqueteRecepcion.getData(), 0, paqueteRecepcion.getLength());
             System.out.println("Conexion establecida con el servidor ");
 
-            DatagramSocket socketEspera = new DatagramSocket(5432);
-            DatagramPacket paqueteAvanzar = new DatagramPacket(bufferRecepcion, bufferRecepcion.length);
-            socketEspera.receive(paqueteAvanzar);
-            System.out.println("Seguimos");
-            socketEspera.close();
+               boolean esperarAvance=true;
+            
+            while (esperarAvance) {
+                try {
+                    DatagramSocket socketEspera = new DatagramSocket(5432);
+                    DatagramPacket paqueteAvanzar = new DatagramPacket(bufferRecepcion, bufferRecepcion.length);
+                    socketEspera.receive(paqueteAvanzar);
+                    System.out.println("Seguimos");
+                    socketEspera.close();
+                    esperarAvance = false;
+                } catch (SocketTimeoutException e) {
+                    // Tiempo de espera agotado, se sigue esperando el mensaje de avance
+                }
+            }
+            		
        
             		
             		
