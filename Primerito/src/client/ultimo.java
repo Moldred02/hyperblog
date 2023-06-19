@@ -21,7 +21,7 @@ public class ultimo {
 	
 	private static boolean condicion=true;
 	private static String host;
-	private static int puntuacion=1; 
+	private static int puntuacion=0; 
 	
 	
 	public static void main(String[]args) throws Exception
@@ -640,7 +640,7 @@ public class ultimo {
          		        			 
         		        			contador++;
         		        		}
-        		        		else if (!(ip[0].equals(clientAddresses[i].toString())) && contador==0)
+        		        		else if (!ip[0].equals(clientAddresses[i].toString()))
         		        		{
         		        			
         		        			sender.enviarMensaje("Se cambiara de server", dir, 5555);
