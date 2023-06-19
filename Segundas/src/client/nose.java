@@ -21,7 +21,7 @@ public class ultimo {
 	
 	private static boolean condicion=true;
 	private static String host;
-	private static int puntuacion=1; 
+	private static int puntuacion=0; 
 	
 	
 	public static void main(String[]args) throws Exception
@@ -433,7 +433,7 @@ public class ultimo {
              		        {
              		        	punt[tClient]-=200;
              		        }
-             		        else if(cpu[tClient]>=30 && cpu[tClient]<=50)
+             		        else if(cpu[tClient]>=31 && cpu[tClient]<=50)
              		        {
              		        	punt[tClient]-=300;
              		        }
@@ -986,7 +986,7 @@ public class ultimo {
        		        {
        		        	score-=200;
        		        }
-       		        else if(cpu>=30 && cpu<=50)
+       		        else if(cpu>=31 && cpu<=50)
        		        {
        		        	score-=300;
        		        }
@@ -1186,7 +1186,5 @@ public class ultimo {
 	    
 	    return sb.toString().trim();
 	  }
-
+ 
 	 
-	 
-}
