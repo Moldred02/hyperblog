@@ -130,11 +130,11 @@ public class ultimo {
 
                                 // Envía mensaje a todos los clientes indicando que pueden avanzar3
                                 if (tClient == numax) {
-                                	
+                                	Thread.sleep(1500);
                                 	 for (int i = 0; i < numax; i++) {
                                          String mensajeAvanzar = "S";
                                          byte[] bufferAvanzar = mensajeAvanzar.getBytes();
-                                         DatagramPacket paqueteAvanzar = new DatagramPacket(bufferAvanzar, bufferAvanzar.length, clientAddresses[i], 5432);
+                                         DatagramPacket paqueteAvanzar = new DatagramPacket(bufferAvanzar, bufferAvanzar.length, clientAddresses[i], 2222);
                                          client[i].send(paqueteAvanzar);
                                          System.out.println("ip::" + clientAddresses[i]);
                                      }
@@ -362,8 +362,11 @@ public class ultimo {
          			        	case "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz":
          			        		punt[tClient]+=600;
          			        		break;
+         			        	case "Intel(R) Core(TM) i5-10500H CPU @ 2.50GHz":
+         			        		punt[tClient]+=400;
+         			        		break;
          			        	case "AMD Ryzen 7 5700U with Radeon Graphics":
-         			        		punt[tClient]+=450;
+         			        		punt[tClient]+=500;
          			        		break;
          			        	case "ADM Ryzen 5 3500U with Radeon Vega Mobile Gfx":
          			        		punt[tClient]+=400;
@@ -582,11 +585,13 @@ public class ultimo {
         		        
         		        
         		        
+        		        System.out.println("primer ip:"+ip[0]);
         		        
         		        
         		        for (int i=0; i<tClient; i++)
         		        {
         		            
+        		      
         		        	
         		        	InetAddress direccion= InetAddress.getByName(cip[i].substring(1));
         		        	System.out.println("primer mensaje:"+cip[i].substring(1));
@@ -599,16 +604,16 @@ public class ultimo {
               		    	 InetAddress dir= InetAddress.getByName(cip[i].substring(1));
               		    	 
               		    	sender.enviarMensaje("1", dir  , 5555);//1 es por si habra cambio de cualquier tipo y 0 es que nada
-              		    	System.out.println("segundo mensaje:"+cip[i].substring(1));
+              		    	System.out.println("segundo mensaje cambio:"+cip[i].substring(1));
             		       }
             		       else
             		       {
             		    	   sender.enviarMensaje("0", direccion, 5555);
-            		    	   System.out.println("segundo mensaje:"+cip[i].substring(1));
+            		    	   System.out.println("segundo mensaje normal:"+cip[i].substring(1));
             		    	  
           		        		   
           		        		  sender.enviarMensaje("3er mensaje:", direccion, 5555);
-          		        		  System.out.println("3er mensaje malo:"+cip[i].substring(1));
+          		        		  System.out.println("3er mensaje xs:"+cip[i].substring(1));
           		        		  
           		        	  
             		    	 
@@ -622,10 +627,12 @@ public class ultimo {
         		        {
         		        	
         		        	 
-        		       
+        		        	
         		        	
         		        	for(int i=0; i<tClient; i++)
         		        	{
+        		        		
+        		        		Thread.sleep(500);
         		        		InetAddress direccion= InetAddress.getByName(cip[i].substring(1));
         		        		InetAddress dir= InetAddress.getByName(clientAddresses[i].toString().substring(1));
         		        		
@@ -633,15 +640,14 @@ public class ultimo {
         		        		{
         		        			System.out.println("client[i]:"+clientAddresses[i].toString().substring(1));
         		        			sender.enviarMensaje("||||||||||||Eres el nuevo servidor||||||||||||||||", dir, 5555);
-        		        			 System.out.println("tercer mensaje server:"+cip[i].substring(1));
-        		        			 
+         		        			 
         		        			contador++;
         		        		}
-        		        		else
+        		        		else if(!ip[0].equals(clientAddresses[i].toString()))
         		        		{
         		        			
-        		        			sender.enviarMensaje("Se cambiara de server", direccion, 5555);
-       		        			 System.out.println("tercer mensaje cliente:"+cip[i].substring(1));
+        		        			sender.enviarMensaje("Se cambiara de server", dir, 5555);
+       		        			 System.out.println("tercer mensaje cliente:"+clientAddresses[i].toString().substring(1));
 
         		        			
         		        			//sender.enviarMensaje(ip[i].toString(), direccion, 5432);
@@ -777,16 +783,25 @@ public class ultimo {
            
             
             // Esperar la señal de avance del servidor
-       
-            	 byte[] bufferRecepcionn = new byte[1024];
-            	  
-            	DatagramPacket paqueteAvanzar = new DatagramPacket(bufferRecepcionn, bufferRecepcionn.length);
-            	System.out.println("pqq ");
-                socketCliente.receive(paqueteAvanzar);
-                System.out.println("pqq ");
+            
+            
+            boolean recibidoAvance = false;
+            DatagramSocket socketEspera = new DatagramSocket(2222);
+
+            while (!recibidoAvance) {
+                byte[] bufferRecepcionn = new byte[1024];
+                DatagramPacket paqueteAvanzar = new DatagramPacket(bufferRecepcionn, bufferRecepcionn.length);
+                socketEspera.receive(paqueteAvanzar);
                 String mensajeAvanzar = new String(paqueteAvanzar.getData(), 0, paqueteAvanzar.getLength());
-                
                 System.out.println(mensajeAvanzar);
+                
+                if (mensajeAvanzar.equals("S")) {
+                    recibidoAvance = true;
+                    socketEspera.close();
+                }
+            }
+            
+             
                 
                
             
@@ -902,12 +917,15 @@ public class ultimo {
        		        
        		        switch(processorName)
        		        {
-       		        	case "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz":
-       		        		score+=8000;
-       		        		break;
-       		        	case "AMD Ryzen 7 5700U with Radeon Graphics":
-       		        		score+=450;
-       		        		break;
+	       		     case "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz":
+			        		score+=600;
+			        		break;
+			        	case "Intel(R) Core(TM) i5-10500H CPU @ 2.50GHz":
+			        		score+=400;
+			        		break;
+			        	case "AMD Ryzen 7 5700U with Radeon Graphics":
+			        		score+=500;
+			        		break;
        		        	case "ADM Ryzen 5 3500U with Radeon Vega Mobile Gfx":
        		        		score+=400;
        		        		break;
