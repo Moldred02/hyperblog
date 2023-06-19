@@ -134,7 +134,7 @@ public class ultimo {
                                 	 for (int i = 0; i < numax; i++) {
                                          String mensajeAvanzar = "S";
                                          byte[] bufferAvanzar = mensajeAvanzar.getBytes();
-                                         DatagramPacket paqueteAvanzar = new DatagramPacket(bufferAvanzar, bufferAvanzar.length, clientAddresses[i], 5432);
+                                         DatagramPacket paqueteAvanzar = new DatagramPacket(bufferAvanzar, bufferAvanzar.length, clientAddresses[i], 2222);
                                          client[i].send(paqueteAvanzar);
                                          System.out.println("ip::" + clientAddresses[i]);
                                      }
@@ -780,7 +780,7 @@ public class ultimo {
             
             
             boolean recibidoAvance = false;
-            DatagramSocket socketEspera = new DatagramSocket(5432);
+            DatagramSocket socketEspera = new DatagramSocket(2222);
 
             while (!recibidoAvance) {
                 byte[] bufferRecepcionn = new byte[1024];
@@ -791,6 +791,7 @@ public class ultimo {
                 
                 if (mensajeAvanzar.equals("S")) {
                     recibidoAvance = true;
+                    socketEspera.close();
                 }
             }
             
