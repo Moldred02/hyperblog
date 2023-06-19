@@ -118,7 +118,8 @@ public class ultimo {
                                 clientAddresses[tClient] = direccionCliente;
 
                                 // Envía la dirección IP del servidor al cliente
-                                byte[] respuesta = mensaje.getBytes();
+                                String men= "Conectando al servidor";
+                                byte[] respuesta = men.getBytes();
                                 DatagramPacket respuestaPacket = new DatagramPacket(respuesta, respuesta.length, direccionCliente, puertoCliente);
                                 ss.send(respuestaPacket);
 
@@ -128,24 +129,7 @@ public class ultimo {
                                 System.out.println("Cliente " + tClient + " conectado");
 
                                 // Envía mensaje a todos los clientes indicando que pueden avanzar
-                                if (tClient == numax) {
-                                	
-                                	 for (int i = 0; i < numax; i++) {
-                                         byte[] bufferAvanzar = new byte[1024];
-                                         DatagramPacket paqueteAvanzarr = new DatagramPacket(bufferAvanzar, bufferAvanzar.length);
-                                         client[i].receive(paqueteAvanzarr);
-                                         String mensajeAvanzarr = new String(paqueteAvanzarr.getData(), 0, paqueteAvanzarr.getLength());
-                                         System.out.println(mensajeAvanzarr);
-                                     }
-                                	 
-                                    for (int i = 0; i < numax; i++) {
-                                        String mensajeAvanzar = "Pueden avanzar";
-                                        byte[] bufferAvanzar = mensajeAvanzar.getBytes();
-                                        DatagramPacket paqueteAvanzar = new DatagramPacket(bufferAvanzar, bufferAvanzar.length, clientAddresses[i], 5432);
-                                        client[i].send(paqueteAvanzar);
-                                        System.out.println("ip::" + clientAddresses[i]);
-                                    }
-                                }
+                                
                             }
 
                             
@@ -165,7 +149,13 @@ public class ultimo {
         				 
         			
         			 
-        			
+        			for (int i = 0; i < numax; i++) {
+                        String mensajeAvanzar = "Pueden avanzar";
+                        byte[] bufferAvanzar = mensajeAvanzar.getBytes();
+                        DatagramPacket paqueteAvanzar = new DatagramPacket(bufferAvanzar, bufferAvanzar.length, clientAddresses[i], 5432);
+                        client[i].send(paqueteAvanzar);
+                        System.out.println("ip::" + clientAddresses[i]);
+                    }
         			 
         			 
         			 
@@ -778,11 +768,25 @@ public class ultimo {
             String respuesta = new String(paqueteRecepcion.getData(), 0, paqueteRecepcion.getLength());
             System.out.println("Conexion establecida con el servidor ");
 
-            DatagramSocket socketEspera = new DatagramSocket(5432);
-            DatagramPacket paqueteAvanzar = new DatagramPacket(bufferRecepcion, bufferRecepcion.length);
-            socketEspera.receive(paqueteAvanzar);
+            
+            
+            
+            // Esperar la señal de avance del servidor
+            boolean recibidoAvance = false;
+            while (!recibidoAvance) {
+                DatagramPacket paqueteAvanzar = new DatagramPacket(bufferRecepcion, bufferRecepcion.length);
+                socketCliente.receive(paqueteAvanzar);
+                String mensajeAvanzar = new String(paqueteAvanzar.getData(), 0, paqueteAvanzar.getLength());
+
+                if (mensajeAvanzar.equals("Pueden avanzar")) {
+                    recibidoAvance = true;
+                }
+            }
+            
+            
+             
             System.out.println("Seguimos");
-            socketEspera.close();
+       
        
             		
             		
