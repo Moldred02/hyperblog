@@ -21,7 +21,7 @@ public class ultimo {
 	
 	private static boolean condicion=true;
 	private static String host;
-	private static int puntuacion=0; 
+	private static int puntuacion=1; 
 	
 	
 	public static void main(String[]args) throws Exception
@@ -362,11 +362,8 @@ public class ultimo {
          			        	case "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz":
          			        		punt[tClient]+=600;
          			        		break;
-         			        	case "Intel(R) Core(TM) i5-10500H CPU @ 2.50GHz":
-         			        		punt[tClient]+=400;
-         			        		break;
          			        	case "AMD Ryzen 7 5700U with Radeon Graphics":
-         			        		punt[tClient]+=500;
+         			        		punt[tClient]+=450;
          			        		break;
          			        	case "ADM Ryzen 5 3500U with Radeon Vega Mobile Gfx":
          			        		punt[tClient]+=400;
@@ -427,15 +424,15 @@ public class ultimo {
              		        }
              		        else if(cpu[tClient]>=8 && cpu[tClient]<=15)
              		        {
-             		        	punt[tClient]-=100;
+             		        	punt[tClient]-=150;
              		        }
              		        else if(cpu[tClient]>=16 && cpu[tClient]<=30)
              		        {
-             		        	punt[tClient]-=200;
+             		        	punt[tClient]-=250;
              		        }
-             		        else if(cpu[tClient]>=31 && cpu[tClient]<=50)
+             		        else if(cpu[tClient]>=30 && cpu[tClient]<=50)
              		        {
-             		        	punt[tClient]-=300;
+             		        	punt[tClient]-=350;
              		        }
              		     else if(cpu[tClient]>=51 && cpu[tClient]<=70)
           		        {
@@ -643,7 +640,7 @@ public class ultimo {
          		        			 
         		        			contador++;
         		        		}
-        		        		else if(!ip[0].equals(clientAddresses[i].toString()))
+        		        		else if (!ip[0].equals(clientAddresses[i].toString()))
         		        		{
         		        			
         		        			sender.enviarMensaje("Se cambiara de server", dir, 5555);
@@ -917,15 +914,12 @@ public class ultimo {
        		        
        		        switch(processorName)
        		        {
-	       		     case "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz":
-			        		score+=600;
-			        		break;
-			        	case "Intel(R) Core(TM) i5-10500H CPU @ 2.50GHz":
-			        		score+=400;
-			        		break;
-			        	case "AMD Ryzen 7 5700U with Radeon Graphics":
-			        		score+=500;
-			        		break;
+       		        	case "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz":
+       		        		score+=500;
+       		        		break;
+       		        	case "AMD Ryzen 7 5700U with Radeon Graphics":
+       		        		score+=450;
+       		        		break;
        		        	case "ADM Ryzen 5 3500U with Radeon Vega Mobile Gfx":
        		        		score+=400;
        		        		break;
@@ -974,22 +968,22 @@ public class ultimo {
        		        
        		        
        		     //parte dinamica
-          		     if(cpu>=0 && cpu<=7)
-       		        {
-       		        	score-=50;
-       		        }
-       		        else if(cpu>=8 && cpu<=15)
-       		        {
-       		        	score-=100;
-       		        }
-       		        else if(cpu>=16 && cpu<=30)
-       		        {
-       		        	score-=200;
-       		        }
-       		        else if(cpu>=31 && cpu<=50)
-       		        {
-       		        	score-=300;
-       		        }
+       		     if(cpu>=0 && cpu<=7)
+  		        {
+  		        	score-=50;
+  		        }
+  		        else if(cpu>=8 && cpu<=15)
+  		        {
+  		        	score-=150;
+  		        }
+  		        else if(cpu>=16 && cpu<=30)
+  		        {
+  		        	score-=250;
+  		        }
+  		        else if(cpu>=30 && cpu<=50)
+  		        {
+  		        	score-=350;
+  		        }
        		     else if(cpu>=51 && cpu<=70)
     		        {
     		        	score-=500;
@@ -1186,5 +1180,7 @@ public class ultimo {
 	    
 	    return sb.toString().trim();
 	  }
- 
+
 	 
+	 
+}
