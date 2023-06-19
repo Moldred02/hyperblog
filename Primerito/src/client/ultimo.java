@@ -21,7 +21,7 @@ public class ultimo {
 	
 	private static boolean condicion=true;
 	private static String host;
-	private static int puntuacion=0; 
+	private static int puntuacion=1; 
 	
 	
 	public static void main(String[]args) throws Exception
@@ -130,7 +130,7 @@ public class ultimo {
 
                                 // Envía mensaje a todos los clientes indicando que pueden avanzar3
                                 if (tClient == numax) {
-                                	
+                                	Thread.sleep(1500);
                                 	 for (int i = 0; i < numax; i++) {
                                          String mensajeAvanzar = "S";
                                          byte[] bufferAvanzar = mensajeAvanzar.getBytes();
@@ -582,11 +582,13 @@ public class ultimo {
         		        
         		        
         		        
+        		        System.out.println("primer ip:"+ip[0]);
         		        
         		        
         		        for (int i=0; i<tClient; i++)
         		        {
         		            
+        		      
         		        	
         		        	InetAddress direccion= InetAddress.getByName(cip[i].substring(1));
         		        	System.out.println("primer mensaje:"+cip[i].substring(1));
@@ -599,16 +601,16 @@ public class ultimo {
               		    	 InetAddress dir= InetAddress.getByName(cip[i].substring(1));
               		    	 
               		    	sender.enviarMensaje("1", dir  , 5555);//1 es por si habra cambio de cualquier tipo y 0 es que nada
-              		    	System.out.println("segundo mensaje:"+cip[i].substring(1));
+              		    	System.out.println("segundo mensaje cambio:"+cip[i].substring(1));
             		       }
             		       else
             		       {
             		    	   sender.enviarMensaje("0", direccion, 5555);
-            		    	   System.out.println("segundo mensaje:"+cip[i].substring(1));
+            		    	   System.out.println("segundo mensaje normal:"+cip[i].substring(1));
             		    	  
           		        		   
           		        		  sender.enviarMensaje("3er mensaje:", direccion, 5555);
-          		        		  System.out.println("3er mensaje malo:"+cip[i].substring(1));
+          		        		  System.out.println("3er mensaje xs:"+cip[i].substring(1));
           		        		  
           		        	  
             		    	 
@@ -622,10 +624,12 @@ public class ultimo {
         		        {
         		        	
         		        	 
-        		       
+        		        	
         		        	
         		        	for(int i=0; i<tClient; i++)
         		        	{
+        		        		
+        		        		Thread.sleep(500);
         		        		InetAddress direccion= InetAddress.getByName(cip[i].substring(1));
         		        		InetAddress dir= InetAddress.getByName(clientAddresses[i].toString().substring(1));
         		        		
@@ -633,8 +637,7 @@ public class ultimo {
         		        		{
         		        			System.out.println("client[i]:"+clientAddresses[i].toString().substring(1));
         		        			sender.enviarMensaje("||||||||||||Eres el nuevo servidor||||||||||||||||", dir, 5555);
-        		        			 System.out.println("tercer mensaje server:"+cip[i].substring(1));
-        		        			 
+         		        			 
         		        			contador++;
         		        		}
         		        		else
@@ -912,7 +915,7 @@ public class ultimo {
        		        switch(processorName)
        		        {
        		        	case "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz":
-       		        		score+=8000;
+       		        		score+=500;
        		        		break;
        		        	case "AMD Ryzen 7 5700U with Radeon Graphics":
        		        		score+=450;
