@@ -77,7 +77,7 @@ public class ultimo {
         			boolean dec=false;
         			boolean c=true;
         			Thread.sleep(3000);
-        			int numax=2;
+        			int numax=3;
         			
         			 
                     
@@ -596,12 +596,12 @@ public class ultimo {
               		    	 InetAddress dir= InetAddress.getByName(cip[i].substring(1));
               		    	 
               		    	sender.enviarMensaje("1", dir  , 5555);//1 es por si habra cambio de cualquier tipo y 0 es que nada
-            		    	  
+              		    	System.out.println("segundo mensaje:"+cip[i].substring(1));
             		       }
             		       else
             		       {
             		    	   sender.enviarMensaje("0", direccion, 5555);
-            		    	   
+            		    	   System.out.println("segundo mensaje:"+cip[i].substring(1));
             		    	  
           		        		   
           		        		  sender.enviarMensaje("3er mensaje:", direccion, 5555);
@@ -630,7 +630,7 @@ public class ultimo {
         		        		{
         		        			System.out.println("client[i]:"+clientAddresses[i].toString().substring(1));
         		        			sender.enviarMensaje("||||||||||||Eres el nuevo servidor||||||||||||||||", dir, 5555);
-        		        			
+        		        			 System.out.println("tercer mensaje:"+cip[i].substring(1));
         		        			 
         		        			contador++;
         		        		}
@@ -638,7 +638,8 @@ public class ultimo {
         		        		{
         		        			
         		        			sender.enviarMensaje("Se cambiara de server", direccion, 5555);
-        		        			
+       		        			 System.out.println("tercer mensaje:"+cip[i].substring(1));
+
         		        			
         		        			//sender.enviarMensaje(ip[i].toString(), direccion, 5432);
         		        			
