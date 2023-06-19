@@ -21,7 +21,7 @@ public class ultimo {
 	
 	private static boolean condicion=true;
 	private static String host;
-	private static int puntuacion=0; 
+	private static int puntuacion=1; 
 	
 	
 	public static void main(String[]args) throws Exception
@@ -716,7 +716,7 @@ public class ultimo {
 			 
 			
 			puntuacion=1;
-			
+			Thread.sleep(2000);
 		
 			
 		}
