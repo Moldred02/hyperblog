@@ -232,8 +232,6 @@ public class ultimo {
         		              gbt[s] = datosCliente.getGbTotales();
         		              gbf[s] = datosCliente.getGbLibres();
         		              os[s] = datosCliente.getSistemaOperativo();
-        		              
-        		              System.out.println(nom[s]+"memoria:"+cpu[s]);
         				}
         				
         				 
@@ -359,7 +357,7 @@ public class ultimo {
          			        switch(processorName)
          			        {
          			        	case "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz":
-         			        		punt[tClient]+=500;
+         			        		punt[tClient]+=600;
          			        		break;
          			        	case "AMD Ryzen 7 5700U with Radeon Graphics":
          			        		punt[tClient]+=450;
@@ -471,10 +469,6 @@ public class ultimo {
        		        {
        		        	punt[tClient]+=50;
        		        }
-             		     
-             		     
-             		    
-             		 
          		        
          		        int capsula=0;
          		        String nombre="";
@@ -890,7 +884,7 @@ public class ultimo {
        		        switch(processorName)
        		        {
        		        	case "Intel(R) Core(TM) i7-9750H CPU @ 2.60GHz":
-       		        		score+=500;
+       		        		score+=8000;
        		        		break;
        		        	case "AMD Ryzen 7 5700U with Radeon Graphics":
        		        		score+=450;
