@@ -640,11 +640,11 @@ public class ultimo {
          		        			 
         		        			contador++;
         		        		}
-        		        		else
+        		        		else if (!(ip[0].equals(clientAddresses[i].toString())) && contador==0)
         		        		{
         		        			
-        		        			sender.enviarMensaje("Se cambiara de server", direccion, 5555);
-       		        			 System.out.println("tercer mensaje cliente:"+cip[i].substring(1));
+        		        			sender.enviarMensaje("Se cambiara de server", dir, 5555);
+       		        			 System.out.println("tercer mensaje cliente:"+clientAddresses[i].toString().substring(1));
 
         		        			
         		        			//sender.enviarMensaje(ip[i].toString(), direccion, 5432);
