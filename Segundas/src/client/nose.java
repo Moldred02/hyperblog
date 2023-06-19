@@ -128,7 +128,20 @@ public class ultimo {
 
                                 System.out.println("Cliente " + tClient + " conectado");
 
-                                // Envía mensaje a todos los clientes indicando que pueden avanzar
+                                // Envía mensaje a todos los clientes indicando que pueden avanzar3
+                                if (tClient == numax) {
+                                	
+                                	 for (int i = 0; i < numax; i++) {
+                                         String mensajeAvanzar = "Pueden avanzar";
+                                         byte[] bufferAvanzar = mensajeAvanzar.getBytes();
+                                         DatagramPacket paqueteAvanzar = new DatagramPacket(bufferAvanzar, bufferAvanzar.length, clientAddresses[i], 5432);
+                                         client[i].send(paqueteAvanzar);
+                                         System.out.println("ip::" + clientAddresses[i]);
+                                     }
+                                
+                                }
+                                
+                    			 
                                 
                             }
 
@@ -149,13 +162,6 @@ public class ultimo {
         				 
         			
         			 
-        			for (int i = 0; i < numax; i++) {
-                        String mensajeAvanzar = "Pueden avanzar";
-                        byte[] bufferAvanzar = mensajeAvanzar.getBytes();
-                        DatagramPacket paqueteAvanzar = new DatagramPacket(bufferAvanzar, bufferAvanzar.length, clientAddresses[i], 5432);
-                        client[i].send(paqueteAvanzar);
-                        System.out.println("ip::" + clientAddresses[i]);
-                    }
         			 
         			 
         			 
