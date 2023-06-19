@@ -21,7 +21,7 @@ public class ultimo {
 	
 	private static boolean condicion=true;
 	private static String host;
-	private static int puntuacion=0; 
+	private static int puntuacion=1; 
 	
 	
 	public static void main(String[]args) throws Exception
@@ -76,10 +76,10 @@ public class ultimo {
         			int tClient=0;
         			boolean dec=false;
         			boolean c=true;
-        			Thread.sleep(3000);
+        			//Thread.sleep(3000);
         			int numax=3;
         			
-        			 
+        		//	 boolean allConnect=false;
                     
         			
         			while(  tClient<numax)
@@ -92,7 +92,7 @@ public class ultimo {
                         // Verifica si el mensaje recibido es una solicitud de descubrimiento
                         
                         String solicitud = new String(packet.getData(), 0, packet.getLength());
-                        solicitud="¿Quién es el servidor?";
+                         
                         if (solicitud.equals("¿Quién es el servidor?")) {
                         	
                             // Obtiene la dirección IP y el puerto del cliente que hizo la solicitud
@@ -132,7 +132,7 @@ public class ultimo {
                                 if (tClient == numax) {
                                 	
                                 	 for (int i = 0; i < numax; i++) {
-                                         String mensajeAvanzar = "Pueden avanzar";
+                                         String mensajeAvanzar = "S";
                                          byte[] bufferAvanzar = mensajeAvanzar.getBytes();
                                          DatagramPacket paqueteAvanzar = new DatagramPacket(bufferAvanzar, bufferAvanzar.length, clientAddresses[i], 5432);
                                          client[i].send(paqueteAvanzar);
@@ -157,10 +157,9 @@ public class ultimo {
         			
         			
         			
+        		  
         				 
-        				 
-        				 
-        			
+        			 
         			 
         			 
         			 
@@ -775,20 +774,21 @@ public class ultimo {
             System.out.println("Conexion establecida con el servidor ");
 
             
-            
+           
             
             // Esperar la señal de avance del servidor
-            boolean recibidoAvance = false;
-            while (!recibidoAvance) {
-                DatagramPacket paqueteAvanzar = new DatagramPacket(bufferRecepcion, bufferRecepcion.length);
+       
+            	 byte[] bufferRecepcionn = new byte[1024];
+            	  
+            	DatagramPacket paqueteAvanzar = new DatagramPacket(bufferRecepcionn, bufferRecepcionn.length);
+            	System.out.println("pqq ");
                 socketCliente.receive(paqueteAvanzar);
+                System.out.println("pqq ");
                 String mensajeAvanzar = new String(paqueteAvanzar.getData(), 0, paqueteAvanzar.getLength());
-
-                if (mensajeAvanzar.equals("Pueden avanzar")) {
-                    recibidoAvance = true;
-                }
-            }
-            
+                
+                System.out.println(mensajeAvanzar);
+                
+               
             
              
             System.out.println("Seguimos");
