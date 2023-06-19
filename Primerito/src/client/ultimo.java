@@ -605,7 +605,7 @@ public class ultimo {
             		    	  
           		        		   
           		        		  sender.enviarMensaje("3er mensaje:", direccion, 5555);
-          		        		  System.out.println("3er mensaje:"+cip[i].substring(1));
+          		        		  System.out.println("3er mensaje malo:"+cip[i].substring(1));
           		        		  
           		        	  
             		    	 
@@ -630,7 +630,7 @@ public class ultimo {
         		        		{
         		        			System.out.println("client[i]:"+clientAddresses[i].toString().substring(1));
         		        			sender.enviarMensaje("||||||||||||Eres el nuevo servidor||||||||||||||||", dir, 5555);
-        		        			 System.out.println("tercer mensaje:"+cip[i].substring(1));
+        		        			 System.out.println("tercer mensaje server:"+cip[i].substring(1));
         		        			 
         		        			contador++;
         		        		}
@@ -638,7 +638,7 @@ public class ultimo {
         		        		{
         		        			
         		        			sender.enviarMensaje("Se cambiara de server", direccion, 5555);
-       		        			 System.out.println("tercer mensaje:"+cip[i].substring(1));
+       		        			 System.out.println("tercer mensaje cliente:"+cip[i].substring(1));
 
         		        			
         		        			//sender.enviarMensaje(ip[i].toString(), direccion, 5432);
