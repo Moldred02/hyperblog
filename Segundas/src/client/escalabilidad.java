@@ -23,8 +23,6 @@ public class ultimo {
 	private static String host;
 	private static int puntuacion=0; 
 	private static int numax=3;
-	private static int tClient=0;
-	private static boolean con=true;
 	
 	public static void main(String[]args) throws Exception
 	{
@@ -49,11 +47,8 @@ public class ultimo {
 	
 	public static void server() throws Exception
 	{
-		con=true;
 		 condicion=true;
 		System.out.println("Eres el server");
-		
-		
 		while(condicion==true )
 		 {
 			 
@@ -78,11 +73,12 @@ public class ultimo {
         			System.out.println("Esperando conexion...");
         			DatagramSocket[] client = new DatagramSocket[4];
         			InetAddress[] clientAddresses = new InetAddress[4]; 
-        			tClient=0;
+        			String primer_ip = "";
+        			int tClient=0;
         			boolean dec=false;
         			boolean c=true;
         			//Thread.sleep(3000);
-        			numax=3;
+        			 
         			
         		//	 boolean allConnect=false;
                     
@@ -132,53 +128,6 @@ public class ultimo {
                                 tClient++;
 
                                 System.out.println("Cliente " + tClient + " conectado");
-                               // int posicion=0;
-                                
-                                Thread receiveThread = new Thread(() -> {
-                                    try {
-                                        byte[] receiveBuffer = new byte[1024];
-                                        DatagramPacket receivePacket = new DatagramPacket(receiveBuffer, receiveBuffer.length);
-
-                                        while (con) {
-                                            for (int i = 0; i < tClient; i++) {
-                                                try {
-                                                    client[i].receive(receivePacket);
-
-                                                    // Procesar el mensaje recibido del cliente actual
-                                                    String mensajeCliente = new String(receivePacket.getData(), receivePacket.getOffset(), receivePacket.getLength());
-                                                    System.out.println("Mensaje recibido del cliente " + (i + 1) + ": " + mensajeCliente);
-
-                                                    // Realizar las operaciones necesarias con el mensaje recibido
-
-                                                    // Limpiar el buffer del paquete para recibir el próximo mensaje
-                                                    receivePacket.setLength(receiveBuffer.length);
-                                                } catch (IOException e) {
-                                                    //e.printStackTrace();
-                                                    tClient--;
-                                                    numax-=1;// Restar 1 a tClient cuando se produce una excepción (cliente desconectado)
-                                                    System.out.println("Cliente"+client[i+1]+" se ha desconectado");
-                                                    // Realizar otras acciones necesarias cuando un cliente se desconecta
-                                                }
-                                            }
-                                            Thread.sleep(2000);
-                                        }
-                                    } catch (IllegalAccessError e) {
-                                        e.printStackTrace();
-                                    } catch (InterruptedException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-                                });
-                                
-                                receiveThread.start();
-                          
-
-
-                                
-
-                                
-                                
-                            
 
                                 // Envía mensaje a todos los clientes indicando que pueden avanzar3
                                 if (tClient == numax) {
@@ -201,7 +150,8 @@ public class ultimo {
                         }
         				 
         		
-                        
+              				
+              			
         					 
         					 
         			}
@@ -331,7 +281,7 @@ public class ultimo {
         			 try {
         			     cpum = Integer.parseInt(valorStr);
         			 } catch (NumberFormatException e) {
-        			     e.printStackTrace();
+        			     cpum=5;
         			 }
         			    ram[tClient]=cpum;
         			   
@@ -587,6 +537,8 @@ public class ultimo {
          		        	capsula=0;
          		        }
          		        
+         		        
+         		        primer_ip=ip[0];
         		        
          		       JTable tabla;
        		        
@@ -726,10 +678,10 @@ public class ultimo {
         		        	
         		        }
         		     
-        		        
+        		         
         		     sender.cerrar();  
         		         
-        			con=false;	
+        				
         				 
         			}
         			catch(Exception e)
@@ -759,9 +711,67 @@ public class ultimo {
          
         Thread.sleep(5000); 
         ventana.setVisible(false);
+        System.out.println("Aqui");
+        MensajeSender sender = new MensajeSender(ss);
+        if(!ss.isConnected())
+        {
+        	System.out.println("El server se ha desconectado");
+        	  
+        	for(int i=0; i<tClient; i++)
+        	{
+        		
+        		Thread.sleep(500);
+        		 
+        		InetAddress dir= InetAddress.getByName(clientAddresses[i].toString().substring(1));
+        		int contador=0;
+        		if((primer_ip.equals(clientAddresses[i].toString())) && contador==0 )
+        		{
+        			System.out.println("Nuevo Server de respaldo::"+clientAddresses[i].toString().substring(1));
+        			sender.enviarMensaje("Desconexion del server, Eres el nuevo servidor", dir, 5555);
+	        			 
+        			contador++;
+        		}
+        		else if (!primer_ip.equals(clientAddresses[i].toString()))
+        		{
+        			
+        			sender.enviarMensaje("Se cambiara de server debido a una desconexion ", dir, 5555);
+       			 System.out.println("Desconexion, informando a clientes::"+clientAddresses[i].toString().substring(1));
+
+        			
+        			//sender.enviarMensaje(ip[i].toString(), direccion, 5432);
+        			
+        			 
+        		}
+        		 
+        		
+        	}
+        	
+        }
+        else
+        {
+        	for(int i=0; i<tClient; i++)
+        	{
+        		
+        		Thread.sleep(500);
+        		 
+        		InetAddress dir= InetAddress.getByName(clientAddresses[i].toString().substring(1));
+        		 
+        		 
+        			sender.enviarMensaje("Normal", dir, 5555);
+	        			 
+        			 
+        		 
+        		
+        	}
+        	
+        }
+        sender.cerrar();
+        
+        
 		
-		}catch (Exception e) {
+		}catch (SocketException e) {
 			e.getMessage();// TODO: handle exception
+			System.out.println("Servidor desconectado");
 		}
 		finally {
 			ss.close();
@@ -795,7 +805,7 @@ public class ultimo {
 	{
 		 
 		condicion=true;
-		 con=true;
+		 
 		 
 		while(condicion==true )
 		 {
@@ -850,33 +860,12 @@ public class ultimo {
             }
             
              
-          
-   
+                
                
-         // Hilo para enviar heartbeats cada 2 segundos
-            Thread heartbeatThread = new Thread(() -> {
-                try {
-                    DatagramSocket heartbeatSocket = new DatagramSocket();
-                    while (con == true) {
-                        // Realizar el envío del heartbeat
-                        String heartbeatMessage = "Heartbeat";
-                        byte[] heartbeatBuffer = heartbeatMessage.getBytes();
-                        DatagramPacket heartbeatPacket = new DatagramPacket(heartbeatBuffer, heartbeatBuffer.length, direccionBroadcast, 5432);
-                        heartbeatSocket.send(heartbeatPacket);
-
-                        Thread.sleep(2000); // Esperar 2 segundos
-                    }
-                    heartbeatSocket.close();
-                } catch (InterruptedException | IOException e) {
-                    e.printStackTrace();
-                }
-            });
-
-            // Iniciar el hilo de los heartbeats
-            heartbeatThread.start();
+            
              
             System.out.println("Seguimos");
-            
+       
        
             		
             		
@@ -903,7 +892,7 @@ public class ultimo {
        		try {
        		    memoria = Integer.parseInt(valorStr);
        		} catch (NumberFormatException e) {
-       		    e.printStackTrace();
+       		    memoria=5;
        		}
        		 
        		 
@@ -1143,7 +1132,7 @@ public class ultimo {
        		 
        		 
        	     receiver.cerrar();
-       	    
+       	 
        	    
     	     
     	       
@@ -1175,6 +1164,29 @@ public class ultimo {
           	    	  
           	      }   
            	     }
+           	     
+           	     
+           	     
+           	  MensajeReceiver rec = new MensajeReceiver(5555);
+           	  
+           	  String men = rec.recibirMensaje();
+           	  System.out.println(men);
+           	  if(men.equals("Desconexion del server, Eres el nuevo servidor"))
+           	  {
+           		  puntuacion=0;
+           		  numax-=1;
+           		  condicion=false;
+           	  }
+           	  else if(men.equals("Desconexion, informando a clientes::"))
+           	  {
+           		  puntuacion=1;
+           		  condicion=false;
+           		  
+           	  }
+           	  else 
+           	  {
+           		  
+           	  }
        	      
        	        
        	         
@@ -1188,7 +1200,7 @@ public class ultimo {
        		 finally
        		 {
        			socketCliente.close();
-    			con=false;
+    			  
        		 }
            	System.out.println("Se termino el programa");
             
@@ -1238,7 +1250,7 @@ public class ultimo {
 	    	
 	      Process process = Runtime.getRuntime().exec(new String[] { "wmic", "cpu", "get", requisito });
 	      BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-	      String line;
+	      String line;	
 	       reader.readLine();
 	      while((line=reader.readLine()) !=null )
 	      {
