@@ -22,7 +22,7 @@ public class ultimo {
 	private static boolean condicion=true;
 	private static String host;
 	private static int puntuacion=0; 
-	private static int numax=3;
+	private static int numax=2;
 	
 	public static void main(String[]args) throws Exception
 	{
@@ -678,10 +678,34 @@ public class ultimo {
         		        	
         		        }
         		     
+        		      
         		         
-        		     sender.cerrar();  
+        		        System.out.println("Aqui");
+         		       
+            		    
+             		    
+    		        	for(int i=0; i<tClient; i++)
+    		        	{
+    		        		
+    		        		Thread.sleep(500);
+    		        		 
+    		        		InetAddress dir= InetAddress.getByName(clientAddresses[i].toString().substring(1));
+    		        		
+    		        		 
+    		        			System.out.println("Comprobar::"+clientAddresses[i].toString().substring(1));
+    		        			sender.enviarMensaje("Comprobar", dir, 5555);
+    			        			 
+    		        			 
+    		        	 
+    		        		
+    		        	}
+    		        	
+    		        	sender.cerrar();
+    		        
+    		        System.out.println("Acabo");
         		         
-        				
+        				   
+        		         
         				 
         			}
         			catch(Exception e)
@@ -711,67 +735,13 @@ public class ultimo {
          
         Thread.sleep(5000); 
         ventana.setVisible(false);
-        System.out.println("Aqui");
-        MensajeSender sender = new MensajeSender(ss);
-        if(!ss.isConnected())
-        {
-        	System.out.println("El server se ha desconectado");
-        	  
-        	for(int i=0; i<tClient; i++)
-        	{
-        		
-        		Thread.sleep(500);
-        		 
-        		InetAddress dir= InetAddress.getByName(clientAddresses[i].toString().substring(1));
-        		int contador=0;
-        		if((primer_ip.equals(clientAddresses[i].toString())) && contador==0 )
-        		{
-        			System.out.println("Nuevo Server de respaldo::"+clientAddresses[i].toString().substring(1));
-        			sender.enviarMensaje("Desconexion del server, Eres el nuevo servidor", dir, 5555);
-	        			 
-        			contador++;
-        		}
-        		else if (!primer_ip.equals(clientAddresses[i].toString()))
-        		{
-        			
-        			sender.enviarMensaje("Se cambiara de server debido a una desconexion ", dir, 5555);
-       			 System.out.println("Desconexion, informando a clientes::"+clientAddresses[i].toString().substring(1));
-
-        			
-        			//sender.enviarMensaje(ip[i].toString(), direccion, 5432);
-        			
-        			 
-        		}
-        		 
-        		
-        	}
-        	
-        }
-        else
-        {
-        	for(int i=0; i<tClient; i++)
-        	{
-        		
-        		Thread.sleep(500);
-        		 
-        		InetAddress dir= InetAddress.getByName(clientAddresses[i].toString().substring(1));
-        		 
-        		 
-        			sender.enviarMensaje("Normal", dir, 5555);
-	        			 
-        			 
-        		 
-        		
-        	}
-        	
-        }
-        sender.cerrar();
+        
         
         
 		
-		}catch (SocketException e) {
+		}catch (Exception e) {
 			e.getMessage();// TODO: handle exception
-			System.out.println("Servidor desconectado");
+			 
 		}
 		finally {
 			ss.close();
@@ -1131,7 +1101,7 @@ public class ultimo {
        		 
        		 
        		 
-       	     receiver.cerrar();
+       	     
        	 
        	    
     	     
@@ -1166,30 +1136,18 @@ public class ultimo {
            	     }
            	     
            	     
-           	     
-           	  MensajeReceiver rec = new MensajeReceiver(5555);
+           
+           	  try
+           	  {
+           		 String men = receiver.recibirMensaje();  
+           	  }catch (SocketTimeoutException e) {
+				System.out.println("El servidor se ha desconectado");
+			}
            	  
-           	  String men = rec.recibirMensaje();
-           	  System.out.println(men);
-           	  if(men.equals("Desconexion del server, Eres el nuevo servidor"))
-           	  {
-           		  puntuacion=0;
-           		  numax-=1;
-           		  condicion=false;
-           	  }
-           	  else if(men.equals("Desconexion, informando a clientes::"))
-           	  {
-           		  puntuacion=1;
-           		  condicion=false;
-           		  
-           	  }
-           	  else 
-           	  {
-           		  
-           	  }
+           	 
        	      
-       	         rec.cerrar();
-       	         
+       	        
+       	     receiver.cerrar();    
        			
        	        
        		}
