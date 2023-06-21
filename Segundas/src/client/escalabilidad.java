@@ -21,7 +21,7 @@ public class ultimo {
 	
 	private static boolean condicion=true;
 	private static String host;
-	private static int puntuacion=0; 
+	private static int puntuacion=1; 
 	private static int numax=2;
 	
 	public static void main(String[]args) throws Exception
@@ -789,7 +789,7 @@ public class ultimo {
 			 
 			
 		   socketCliente = new DatagramSocket();
- 
+		   
 			 // Configurar la dirección de broadcast
             InetAddress direccionBroadcast = InetAddress.getByName("192.168.0.255");
 
@@ -1075,9 +1075,17 @@ public class ultimo {
        		 
        		
        	    DatagramPacket enviar = new DatagramPacket(datosClienteBytes, datosClienteBytes.length, direccionBroadcast, 5432);
-       		socketCliente.send(enviar);
        		
+       		try
+       		{
+       			socketCliente.setSoTimeout(10000);
+       		  socketCliente.send(enviar);
+       		}catch (SocketTimeoutException e) {
+				System.out.println("Servidor desconectado");// TODO: handle exception
+			}
+       	  
        		
+       	 
        		
        		
               		
