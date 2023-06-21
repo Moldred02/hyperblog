@@ -1188,7 +1188,7 @@ public class ultimo {
            		  
            	  }
        	      
-       	        
+       	         rec.cerrar();
        	         
        			
        	        
