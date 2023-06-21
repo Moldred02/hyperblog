@@ -1091,10 +1091,16 @@ public class ultimo {
        		 for(int i=0 ; i<3; i++)
        		 {
        			 
+       		     try
+       		     {
+       		    	 mensaje[i]= receiver.recibirMensaje();
+       	       		 
+            	     System.out.println("recibido:"+mensaje[i]);
+       		     }catch (SocketTimeoutException e) {
+       		    	 System.out.println("Servidor descoenctado");
+					// TODO: handle exception
+				}
        		     
-       		     mensaje[i]= receiver.recibirMensaje();
-       		 
-        	     System.out.println("recibido:"+mensaje[i]);
         			 
        			 
        		 }
